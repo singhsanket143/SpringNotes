@@ -1,0 +1,63 @@
+The `@Entity` and `@ManyToOne` annotations are part of the Java Persistence API (JPA), which is a standard for object-relational mapping (ORM) in Java. These annotations are used to map Java objects to relational database tables and define the relationships between these objects. Here's a brief explanation of each:
+
+### `@Entity`
+
+The `@Entity` annotation is used at the class level to specify that a class is an entity. An entity represents a table stored in a database. Each instance of an entity represents a row in the table.
+
+- **Usage**: Applied to a Java class.
+- **Purpose**: Marks the class as an entity bean, which means it is a lightweight, persistent domain object.
+- **Requirements**: The class must have a no-argument constructor (which can be public, protected, or package-private), and it must not be declared `final`.
+- **Primary Key**: An entity class must have a primary key, which is annotated with `@Id`.
+
+**Example:**
+```java
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
+@Entity
+public class Employee {
+    @Id
+    private Long id;
+    private String name;
+    // Other fields, constructors, getters, and setters
+}
+```
+
+In this example, `Employee` is an entity representing an employee table in the database.
+
+### `@ManyToOne`
+
+The `@ManyToOne` annotation is used to define a many-to-one relationship between two entities. It is typically used in the child entity to indicate that many instances of this entity are associated with one instance of another entity (the parent).
+
+- **Usage**: Applied to a field or a getter method of a Java class.
+- **Purpose**: Specifies a single-valued association to another entity class that has many-to-one multiplicity.
+- **JoinColumn**: Often used with `@JoinColumn` annotation to specify the foreign key column.
+- **Fetching Type**: Can specify how the related entity should be loaded (eagerly or lazily) using the `fetch` attribute.
+
+**Example:**
+```java
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+
+@Entity
+public class Employee {
+    @Id
+    private Long id;
+    private String name;
+
+    @ManyToOne
+    private Department department;
+    // Other fields, constructors, getters, and setters
+}
+
+@Entity
+public class Department {
+    @Id
+    private Long id;
+    private String name;
+    // Other fields, constructors, getters, and setters
+}
+```
+
+In this example, each `Employee` belongs to a `Department`. The `@ManyToOne` relationship indicates that many employees can be part of one department. The `department` field in `Employee` maps to the `Department` entity.
